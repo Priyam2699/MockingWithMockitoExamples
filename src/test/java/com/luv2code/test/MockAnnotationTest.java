@@ -7,12 +7,18 @@ import com.luv2code.component.models.CollegeStudent;
 import com.luv2code.component.models.StudentGrades;
 import com.luv2code.component.service.ApplicationService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
+
+import org.junit.jupiter.api.*;
+import org.springframework.test.util.AssertionErrors;
+
+import static org.mockito.Mockito.*;
 
 @SpringBootTest(classes = MvcTestingExampleApplication.class)
 public class MockAnnotationTest {
@@ -43,6 +49,22 @@ public class MockAnnotationTest {
         studentOne.setStudentGrades(studentGrades);
 
     }
+
+
+    @DisplayName("When and Verify")
+    @Test
+    public void asserEqualsTestAndGrades()
+    {
+        when(applicationDao.addGradeResultsForSingleClass(studentGrades.getMathGradeResults())).thenReturn(100.00);
+
+        Assertions.assertEquals(100,applicationService.addGradeResultsForSingleClass(studentOne.getStudentGrades().getMathGradeResults()));
+
+       verify(applicationDao).addGradeResultsForSingleClass(studentGrades.getMathGradeResults());
+
+       verify(applicationDao,times(1)).addGradeResultsForSingleClass(studentGrades.getMathGradeResults());
+
+    }
+
 
 
 }
